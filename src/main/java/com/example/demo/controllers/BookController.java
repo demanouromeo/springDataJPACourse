@@ -19,19 +19,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entities_classes.Book;
 import com.example.demo.entities_classes.BookRepository;
 
-@RestController
-@RequestMapping("/api/books")
+@RestController 
 public class BookController {
 
     @Autowired
     private BookRepository bookRepository;
 
-    @PostMapping("/add")
+    @PostMapping("/book")
     public Book createBook(@RequestBody Book book) {
         Book savedBook = bookRepository.save(book);
-        return  savedBook;
+        return  savedBook; 
     }
-
+    
+    
     // Get all books
     @GetMapping
     public List<Book> getAllBooks() {
@@ -39,7 +39,7 @@ public class BookController {
     }
 
     // Get book by ID
-    @GetMapping("/{id}")
+    @GetMapping("/{id}")  
     public ResponseEntity<Book> getBookById(@PathVariable Long id) {
         Optional<Book> book = bookRepository.findById(id.intValue());
         if (book.isPresent()) {
@@ -48,9 +48,8 @@ public class BookController {
             return ResponseEntity.notFound().build();
         }
     }
-
-    // Create a new book
-    /* 
+    /*
+    // Create a new book     
     @PostMapping
     public ResponseEntity<Book> createBook(@RequestBody Book book) {
         Book savedBook = bookRepository.save(book);
