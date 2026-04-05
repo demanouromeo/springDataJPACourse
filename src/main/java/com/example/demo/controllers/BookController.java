@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entities_classes.Book;
 import com.example.demo.entities_classes.BookRepository;
 
-@RestController 
+@RestController
 public class BookController {
 
     @Autowired
@@ -28,18 +28,17 @@ public class BookController {
     @PostMapping("/book")
     public Book createBook(@RequestBody Book book) {
         Book savedBook = bookRepository.save(book);
-        return  savedBook; 
+        return savedBook;
     }
-    
-    
+
     // Get all books
-    @GetMapping
+    @GetMapping("/books")
     public List<Book> getAllBooks() {
         return bookRepository.findAll();
     }
 
     // Get book by ID
-    @GetMapping("/{id}")  
+    @GetMapping("books/{id}")
     public ResponseEntity<Book> getBookById(@PathVariable Long id) {
         Optional<Book> book = bookRepository.findById(id.intValue());
         if (book.isPresent()) {
@@ -48,35 +47,84 @@ public class BookController {
             return ResponseEntity.notFound().build();
         }
     }
-    /*
-    // Create a new book     
-    @PostMapping
-    public ResponseEntity<Book> createBook(@RequestBody Book book) {
-        Book savedBook = bookRepository.save(book);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
-    }
 
     // Update an existing book
+    /*
+    @PutMapping("/books/{id}")
+    public Book updateBook(@PathVariable Long id, @RequestBody Book bookDetails) {
+        Optional<Book> optionalBook = bookRepository.findById(id.intValue());
+        if (optionalBook.isPresent()) {
+            Book book = optionalBook.get();
+            book.setTitle(bookDetails.getTitle()); 
+            book.setPrice(bookDetails.getPrice());
+            book.setImageUrl(bookDetails.getImageUrl());
+            book.setAuthor(bookDetails.getAuthor()); 
+            Book updatedBook = bookRepository.save(book);
+            return updatedBook;
+        } else {
+            return new Book(); // Return an empty book or handle as needed
+        }
+    }
+     */
+    /**
+     * This method implements the real put philosophy. Update if id is found, otherwise create a new book with the provided id.
+     * That is why it always returns a book, either updated or newly created. The id is set to the provided id, so if it is a new book, it will be created with that id.
+     */
+    @PutMapping("/books/{id}")
+    public Book updateBook(@PathVariable Long id, @RequestBody Book bookDetails) {
+        bookDetails.setId(id);
+        bookRepository.save(bookDetails);
+        return bookDetails;
+    }
+
+    @PutMapping("/books/2/{id}")
+    public ResponseEntity<Void> updateBook2(@PathVariable Long id, @RequestBody Book bookDetails) {
+        Optional<Book> optionalBook = bookRepository.findById(id.intValue());
+        if (optionalBook.isPresent()) {
+            Book book = optionalBook.get();
+            book.setTitle(bookDetails.getTitle());
+            book.setPrice(bookDetails.getPrice());
+            book.setImageUrl(bookDetails.getImageUrl());
+            book.setAuthor(bookDetails.getAuthor());
+            Book updatedBook = bookRepository.save(book);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    // Delete a book
+    @DeleteMapping("/books/{id}")
+    public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+        Optional<Book> book = bookRepository.findById(id.intValue());
+        if (book.isPresent()) {
+            bookRepository.delete(book.get());
+            //return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /* 
     @PutMapping("/{id}")
     public ResponseEntity<Book> updateBook(@PathVariable Long id, @RequestBody Book bookDetails) {
         Optional<Book> optionalBook = bookRepository.findById(id.intValue());
         if (optionalBook.isPresent()) {
             Book book = optionalBook.get();
-            book.setTitle(bookDetails.getTitle());
-            book.setIsbn(bookDetails.getIsbn());
-            book.setPublicationYear(bookDetails.getPublicationYear());
+            book.setTitle(bookDetails.getTitle()); 
             book.setPrice(bookDetails.getPrice());
             book.setImageUrl(bookDetails.getImageUrl());
-            book.setAuthor(bookDetails.getAuthor());
-            book.setPublisher(bookDetails.getPublisher());
-            book.setCategory(bookDetails.getCategory());
+            book.setAuthor(bookDetails.getAuthor()); 
             Book updatedBook = bookRepository.save(book);
             return ResponseEntity.ok(updatedBook);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+     */
 
+ /* 
     // Delete a book
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable Long id) {
@@ -107,5 +155,12 @@ public class BookController {
     public List<Book> getBooksByPriceRange(@RequestParam double minPrice, @RequestParam double maxPrice) {
         return bookRepository.findByPriceBetween(minPrice, maxPrice);
     }
-    */
+
+    // Create a new book     
+    @PostMapping
+    public ResponseEntity<Book> createBook(@RequestBody Book book) {
+        Book savedBook = bookRepository.save(book);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedBook);
+    }
+     */
 }
