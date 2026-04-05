@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Book Management System</h1>
+
+        <!-- Book Form -->
+        <div class="form-section">
+            <h2>Add New Book</h2>
+            <form id="bookForm">
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="author">Author:</label>
+                    <input type="text" id="author" name="author" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price:</label>
+                    <input type="number" id="price" name="price" step="0.01" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="imageUrl">Image URL:</label>
+                    <input type="url" id="imageUrl" name="imageUrl">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Book</button>
+                <button type="button" id="clearForm" class="btn btn-secondary">Clear</button>
+            </form>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-section">
+            <h2>Search Books</h2>
+            <div class="search-controls">
+                <input type="text" id="searchInput" placeholder="Search by title...">
+                <button id="searchBtn" class="btn btn-info">Search</button>
+                <button id="showAllBtn" class="btn btn-success">Show All Books</button>
+            </div>
+        </div>
+
+        <!-- Books List -->
+        <div class="books-section">
+            <h2>Books Collection</h2>
+            <div id="loading" class="loading">Loading books...</div>
+            <div id="booksContainer"></div>
+        </div>
+
+        <!-- Edit Modal -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Edit Book</h2>
+                <form id="editForm">
+                    <input type="hidden" id="editId">
+                    <div class="form-group">
+                        <label for="editTitle">Title:</label>
+                        <input type="text" id="editTitle" name="title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editAuthor">Author:</label>
+                        <input type="text" id="editAuthor" name="author" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editPrice">Price:</label>
+                        <input type="number" id="editPrice" name="price" step="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editImageUrl">Image URL:</label>
+                        <input type="url" id="editImageUrl" name="imageUrl">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Update Book</button>
+                    <button type="button" id="cancelEdit" class="btn btn-secondary">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
