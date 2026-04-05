@@ -12,14 +12,16 @@ public class Publisher {
     private Long id;
 
     private String name;
-    private String address;
+    private String country;
+    private String website;
 
     // Constructors
     public Publisher() {}
 
-    public Publisher(String name, String address) {
+    public Publisher(String name, String country, String website) {
         this.name = name;
-        this.address = address;
+        this.country = country;
+        this.website = website;
     }
 
     // Getters and Setters
@@ -29,6 +31,18 @@ public class Publisher {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public String getAddress() { return address; }
-    public void setAddress(String address) { this.address = address; }
+    public String getCountry() { return country; }
+    public void setCountry(String country) { this.country = country; }
+
+    public String getWebsite() { return website; }
+    public void setWebsite(String website) { this.website = website; }
+
+    @Override
+    public String toString() {
+        return "Publisher{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", country='" + country + '\'' +
+                '}';
+    }
 }
